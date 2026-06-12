@@ -52,15 +52,3 @@ elif pagina == "🔮 Predictor":
     st.title("🔮 Predictor de Aceptación LGBTI")
     st.info("🚧 Predictor en construcción — esperando modelo")
 
-elif pagina == "📝 Sobre el proyecto":
-    st.title("📝 Sobre el proyecto")
-    st.markdown("""
-    **Hipótesis:** ¿Pueden los indicadores socioeconómicos de un país 
-    predecir el nivel de discriminación y violencia que sufre el colectivo LGBTI?
-    
-    **Datos:** EU LGBTI Survey (FRA) — 2012 y 2019
-    
-    **Variables externas:** PIB per cápita, educación, Gini, desempleo, democracia
-    
-    **Modelo:** Regression con Random Forest + XGBoost
-    """)
