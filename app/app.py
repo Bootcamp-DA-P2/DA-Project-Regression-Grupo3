@@ -1,7 +1,13 @@
+<<<<<<< HEAD
+=======
+## Creación datos de práctica
+
+>>>>>>> d94ebd943b55ebd7b585cb1c6698135aa71ed474
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+<<<<<<< HEAD
 from pathlib import Path
 
 # Imports de Machine Learning añadidos correctamente para el dashboard analítico
@@ -10,6 +16,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import KFold, cross_validate, cross_val_predict
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+=======
+>>>>>>> d94ebd943b55ebd7b585cb1c6698135aa71ed474
 
 # ---- CONFIGURACIÓN ----
 st.set_page_config(
@@ -19,6 +27,7 @@ st.set_page_config(
 )
 
 # ---- CARGA DE DATOS ----
+<<<<<<< HEAD
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_PATH = BASE_DIR / "data" / "processed" / "dataset_regresion.csv"
 
@@ -92,6 +101,16 @@ def get_model(df):
     return train_model_dashboard(df)
 
 resultados_modelo = get_model(df)
+=======
+@st.cache_data
+def load_data():
+    # Cuando esté listo el CSV final lo cargamos aquí
+    df = pd.read_csv('../data/processed/master_fra_verificado.csv')
+    return df
+
+df = load_data()
+
+>>>>>>> d94ebd943b55ebd7b585cb1c6698135aa71ed474
 # ---- NAVEGACIÓN ----
 st.sidebar.title("🌈 LGBTI Acceptance")
 pagina = st.sidebar.radio(
@@ -102,6 +121,7 @@ pagina = st.sidebar.radio(
 # ---- PÁGINAS ----
 if pagina == "📊 Dashboard":
     st.title("📊 Dashboard — Aceptación LGBTI en Europa")
+<<<<<<< HEAD
 
     # ---- MÉTRICAS RÁPIDAS ----
     col1, col2, col3 = st.columns(3)
@@ -249,10 +269,30 @@ if pagina == "📊 Dashboard":
         use_container_width=True
     )
 
+=======
+    
+    # Métricas rápidas en la parte superior
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Total países", df['CountryCode'].nunique())
+    
+    with col2:
+        st.metric("Total respuestas", f"{len(df):,}")
+    
+    with col3:
+        st.metric("Años disponibles", "2012 — 2019")
+    
+    # Tabla de datos
+    st.subheader("Vista del dataset")
+    st.dataframe(df.head(20))
+
+>>>>>>> d94ebd943b55ebd7b585cb1c6698135aa71ed474
 elif pagina == "🔮 Predictor":
     st.title("🔮 Predictor de Aceptación LGBTI")
     st.info("🚧 Predictor en construcción — esperando modelo")
 
+<<<<<<< HEAD
 elif pagina == "📝 Sobre el proyecto":
     st.title("📝 Sobre el proyecto")
 
@@ -260,3 +300,5 @@ elif pagina == "📝 Sobre el proyecto":
     Proyecto desarrollado para analizar la relación entre
     factores socioeconómicos y el índice de aceptación LGBTI en Europa.
     """)
+=======
+>>>>>>> d94ebd943b55ebd7b585cb1c6698135aa71ed474
