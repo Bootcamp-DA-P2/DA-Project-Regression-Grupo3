@@ -261,7 +261,61 @@ if pagina == "📊 Dashboard":
 
 elif pagina == "🔮 Predictor":
     st.title("🔮 Predictor de Aceptación LGBTI")
-    st.info("🚧 Predictor en construcción — esperando modelo")
+    st.write("Introduce los indicadores de un país para predecir su índice de aceptación LGBTI.")
+
+    # Entrenar modelo con year como feature
+    features_pred = [
+        "year", "gdp_per_capita", "gini_index",
+        "education_spending", "urbanization_rate", "unemployment_rate"
+    ]
+
+    X_pred = df[features_pred]
+    y_pred_model = df["acceptance_index"]
+
+    pipeline_pred = Pipeline([
+        ("scaler", StandardScaler()),
+        ("model", Ridge(alpha=10))
+    ])
+    pipeline_pred.fit(X_pred, y_pred_model)
+
+    # Inputs del usuario
+    col1, col2 = st.columns(2)
+
+    with col1:
+        year = st.selectbox("Año", [2012, 2019])
+        gdp = st.slider("PIB per cápita (USD)", 5000, 120000, 30000, step=1000)
+        gini = st.slider("Índice Gini (desigualdad)", 22.0, 42.0, 30.0, step=0.5)
+
+    with col2:
+        education = st.slider("Gasto en educación (% PIB)", 2.0, 8.0, 5.0, step=0.1)
+        urbanization = st.slider("Tasa de urbanización (%)", 50.0, 100.0, 70.0, step=0.5)
+        unemployment = st.slider("Tasa de desempleo (%)", 2.0, 30.0, 8.0, step=0.5)
+
+    # Predicción
+    input_data = np.array([[year, gdp, gini, education, urbanization, unemployment]])
+    prediction = pipeline_pred.predict(input_data)[0]
+    prediction = max(0, min(100, prediction))
+
+    st.divider()
+    st.subheader("Resultado")
+
+    col3, col4 = st.columns(2)
+
+    with col3:
+        st.metric("Índice de Aceptación Predicho", f"{prediction:.1f} / 100")
+
+    with col4:
+        if prediction >= 70:
+            st.success(f"🟢 Alta aceptación ({prediction:.1f})")
+        elif prediction >= 40:
+            st.warning(f"🟡 Aceptación media ({prediction:.1f})")
+        else:
+            st.error(f"🔴 Baja aceptación ({prediction:.1f})")
+
+    # País más similar
+    df["diff"] = (df["acceptance_index"] - prediction).abs()
+    pais_similar = df.loc[df["diff"].idxmin()]
+    st.info(f"🌍 País más similar: **{pais_similar['CountryCode']}** ({pais_similar['year']}) con índice {pais_similar['acceptance_index']:.1f}")
 
 elif pagina == "📝 Sobre el proyecto":
     st.title("📝 Sobre el proyecto")
