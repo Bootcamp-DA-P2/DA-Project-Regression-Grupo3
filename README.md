@@ -227,6 +227,8 @@ La app incluye tres secciones:
 | **Rita** | Limpieza de datos (nulos, duplicados), documentación |
 | **Romi** | Verificación de datos, validación del modelo (overfitting, residuos), Streamlit |
 
+Kanban a través de [github](https://github.com/users/rnavea-r/projects/3)
+
 ---
 
 ## 📁 Notebooks
